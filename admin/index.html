@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>J.BICIN — Admin</title>
+
+  <link rel="stylesheet" href="./admin.css">
+</head>
+
+<body>
+
+  <div id="loadingScreen" class="loading-screen">
+    <div>
+      <div class="admin-logo">J.BICIN</div>
+      <p>Comprobando acceso...</p>
+    </div>
+  </div>
+
+
+  <div id="adminApp" class="admin-app hidden">
+
+    <header class="admin-header">
+
+      <div>
+        <div class="brand">J.BICIN</div>
+        <div class="panel-name">BUSINESS / ADMIN</div>
+      </div>
+
+      <div class="admin-user">
+        <span id="adminEmail"></span>
+        <button id="logoutBtn">Cerrar sesión</button>
+      </div>
+
+    </header>
+
+
+    <aside class="sidebar">
+
+      <button class="nav-btn active" data-section="dashboard">
+        Dashboard
+      </button>
+
+      <button class="nav-btn" data-section="products">
+        Productos
+      </button>
+
+      <button class="nav-btn" data-section="stock">
+        Stock
+      </button>
+
+      <button class="nav-btn" data-section="categories">
+        Categorías
+      </button>
+
+      <button class="nav-btn" data-section="orders">
+        Pedidos
+      </button>
+
+      <button class="nav-btn" data-section="customers">
+        Clientes
+      </button>
+
+      <button class="nav-btn" data-section="expenses">
+        Gastos
+      </button>
+
+      <button class="nav-btn" data-section="finance">
+        Finanzas
+      </button>
+
+    </aside>
+
+
+    <main class="main-content">
+
+      <section id="dashboard" class="admin-section active">
+
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">J.BICIN BUSINESS</p>
+            <h1>Dashboard</h1>
+          </div>
+
+          <div id="dashboardDate"></div>
+        </div>
+
+
+        <div class="stats-grid">
+
+          <div class="stat-card">
+            <span>Productos</span>
+            <strong id="statProducts">—</strong>
+          </div>
+
+          <div class="stat-card">
+            <span>Unidades en stock</span>
+            <strong id="statStock">—</strong>
+          </div>
+
+          <div class="stat-card">
+            <span>Productos publicados</span>
+            <strong id="statPublished">—</strong>
+          </div>
+
+          <div class="stat-card">
+            <span>Variantes</span>
+            <strong id="statVariants">—</strong>
+          </div>
+
+        </div>
+
+
+        <div class="panel">
+
+          <div class="panel-title">
+            <h2>Estado del inventario</h2>
+          </div>
+
+          <div id="inventorySummary">
+            Cargando...
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <section id="products" class="admin-section">
+
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">CATÁLOGO</p>
+            <h1>Productos</h1>
+          </div>
+
+          <button class="primary-btn" id="newProductBtn">
+            + Nuevo producto
+          </button>
+        </div>
+
+
+        <div class="panel">
+
+          <div id="productsTable">
+            Cargando productos...
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <section id="stock" class="admin-section">
+
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">INVENTARIO</p>
+            <h1>Stock</h1>
+          </div>
+        </div>
+
+
+        <div class="panel">
+
+          <div id="stockTable">
+            Cargando stock...
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <section id="categories" class="admin-section">
+
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">CATÁLOGO</p>
+            <h1>Categorías</h1>
+          </div>
+        </div>
+
+        <div class="panel">
+
+          <div id="categoriesTable">
+            Cargando categorías...
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <section id="orders" class="admin-section">
+
+        <div class="empty-section">
+          <p class="eyebrow">BUSINESS</p>
+          <h1>Pedidos</h1>
+          <p>El sistema de pedidos será conectado en la siguiente fase.</p>
+        </div>
+
+      </section>
+
+
+      <section id="customers" class="admin-section">
+
+        <div class="empty-section">
+          <p class="eyebrow">CRM</p>
+          <h1>Clientes</h1>
+          <p>Base de clientes preparada para la siguiente fase.</p>
+        </div>
+
+      </section>
+
+
+      <section id="expenses" class="admin-section">
+
+        <div class="empty-section">
+          <p class="eyebrow">FINANZAS</p>
+          <h1>Gastos</h1>
+          <p>Control de gastos preparado para la siguiente fase.</p>
+        </div>
+
+      </section>
+
+
+      <section id="finance" class="admin-section">
+
+        <div class="empty-section">
+          <p class="eyebrow">BUSINESS INTELLIGENCE</p>
+          <h1>Finanzas</h1>
+          <p>Ventas, beneficios, márgenes y análisis llegarán aquí.</p>
+        </div>
+
+      </section>
+
+    </main>
+
+  </div>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../supabase.js"></script>
+  <script src="./admin.js"></script>
+
+</body>
+</html>
