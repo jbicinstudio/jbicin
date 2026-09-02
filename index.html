@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>J.BICIN | Luxury Fashion</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:Arial, Helvetica, sans-serif;
+    color:#111;
+    background:#fff;
+}
+
+header{
+    position:fixed;
+    top:0;
+    width:100%;
+    z-index:100;
+    background:rgba(255,255,255,.94);
+    border-bottom:1px solid #eee;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:22px 6%;
+}
+
+.logo{
+    font-size:23px;
+    font-weight:bold;
+    letter-spacing:6px;
+}
+
+nav{
+    display:flex;
+    gap:30px;
+}
+
+nav a{
+    text-decoration:none;
+    color:#111;
+    font-size:12px;
+    letter-spacing:2px;
+    text-transform:uppercase;
+}
+
+.hero{
+    height:100vh;
+    min-height:650px;
+    background:
+    linear-gradient(rgba(0,0,0,.35),rgba(0,0,0,.35)),
+    url("https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=2000&q=85")
+    center/cover;
+    display:flex;
+    align-items:flex-end;
+    padding:0 7% 90px;
+    color:white;
+}
+
+.hero-content{
+    max-width:650px;
+}
+
+.small{
+    font-size:11px;
+    letter-spacing:4px;
+    text-transform:uppercase;
+    margin-bottom:20px;
+}
+
+.hero h1{
+    font-size:clamp(55px,9vw,110px);
+    font-weight:400;
+    line-height:.9;
+    margin-bottom:25px;
+}
+
+.hero p{
+    font-size:17px;
+    line-height:1.7;
+    max-width:500px;
+    margin-bottom:30px;
+}
+
+.button{
+    display:inline-block;
+    padding:16px 28px;
+    background:white;
+    color:#111;
+    text-decoration:none;
+    font-size:11px;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    margin-right:8px;
+}
+
+.button.dark{
+    background:#111;
+    color:white;
+}
+
+section{
+    padding:110px 7%;
+}
+
+.section-label{
+    color:#9b7b4d;
+    font-size:11px;
+    letter-spacing:4px;
+    text-transform:uppercase;
+    margin-bottom:15px;
+}
+
+h2{
+    font-size:55px;
+    font-weight:400;
+    margin-bottom:50px;
+}
+
+.products{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:20px;
+}
+
+.product-image{
+    width:100%;
+    aspect-ratio:4/5;
+    object-fit:cover;
+    background:#f2eee7;
+}
+
+.product-name{
+    margin-top:15px;
+    font-size:15px;
+}
+
+.price{
+    color:#777;
+    margin-top:7px;
+    font-size:13px;
+}
+
+.about{
+    background:#f3eee6;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:80px;
+    align-items:center;
+}
+
+.about-image{
+    width:100%;
+    height:650px;
+    object-fit:cover;
+}
+
+.about-text p{
+    color:#555;
+    line-height:2;
+    margin-bottom:20px;
+    max-width:550px;
+}
+
+.lookbook{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:20px;
+}
+
+.look{
+    height:600px;
+    background-size:cover;
+    background-position:center;
+    display:flex;
+    align-items:flex-end;
+    padding:35px;
+    color:white;
+    font-size:27px;
+}
+
+.look.one{
+    background-image:
+    linear-gradient(transparent,rgba(0,0,0,.55)),
+    url("https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=1200&q=85");
+}
+
+.look.two{
+    background-image:
+    linear-gradient(transparent,rgba(0,0,0,.55)),
+    url("https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1200&q=85");
+}
+
+.contact{
+    background:#111;
+    color:white;
+    text-align:center;
+}
+
+.contact p{
+    max-width:550px;
+    margin:0 auto 30px;
+    color:#aaa;
+    line-height:1.8;
+}
+
+.contact .button{
+    margin:0;
+}
+
+footer{
+    background:#111;
+    color:#777;
+    border-top:1px solid #333;
+    padding:30px 7%;
+    display:flex;
+    justify-content:space-between;
+    font-size:11px;
+    letter-spacing:2px;
+}
+
+.whatsapp{
+    position:fixed;
+    right:25px;
+    bottom:25px;
+    background:#111;
+    color:white;
+    padding:17px 22px;
+    border-radius:30px;
+    text-decoration:none;
+    font-size:11px;
+    letter-spacing:2px;
+    z-index:200;
+}
+
+@media(max-width:850px){
+
+    header{
+        padding:18px 5%;
+    }
+
+    nav{
+        display:none;
+    }
+
+    section{
+        padding:75px 6%;
+    }
+
+    h2{
+        font-size:42px;
+    }
+
+    .products{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .about{
+        grid-template-columns:1fr;
+        gap:40px;
+    }
+
+    .about-image{
+        height:450px;
+    }
+
+    .lookbook{
+        grid-template-columns:1fr;
+    }
+
+    .look{
+        height:500px;
+    }
+
+    footer{
+        flex-direction:column;
+        gap:15px;
+    }
+
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+
+<div class="logo">J.BICIN</div>
+
+<nav>
+<a href="#coleccion">Colección</a>
+<a href="#marca">La marca</a>
+<a href="#lookbook">Lookbook</a>
+<a href="#contacto">Contacto</a>
+</nav>
+
+</header>
+
+
+<section class="hero">
+
+<div class="hero-content">
+
+<div class="small">New Season · J.BICIN</div>
+
+<h1>Quiet<br>Luxury.</h1>
+
+<p>
+Elegancia contemporánea, líneas limpias y piezas atemporales
+para quienes entienden el lujo como una forma de expresión.
+</p>
+
+<a href="#coleccion" class="button">Ver colección</a>
+
+<a href="https://wa.me/34688749955?text=Hola%20J.BICIN,%20quiero%20información%20sobre%20la%20colección."
+target="_blank"
+class="button dark">
+WhatsApp
+</a>
+
+</div>
+
+</section>
+
+
+<section id="coleccion">
+
+<div class="section-label">01 — Collection</div>
+
+<h2>Selección J.BICIN</h2>
+
+<div class="products">
+
+<div>
+<img class="product-image"
+src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&w=900&q=85">
+<div class="product-name">Noir Blazer</div>
+<div class="price">€189</div>
+</div>
+
+<div>
+<img class="product-image"
+src="https://images.unsplash.com/photo-1544022613-e87ca75a784a?auto=format&fit=crop&w=900&q=85">
+<div class="product-name">Beige Signature</div>
+<div class="price">€249</div>
+</div>
+
+<div>
+<img class="product-image"
+src="https://images.unsplash.com/photo-1603252109303-2751441dd157?auto=format&fit=crop&w=900&q=85">
+<div class="product-name">Essential White</div>
+<div class="price">€79</div>
+</div>
+
+<div>
+<img class="product-image"
+src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=900&q=85">
+<div class="product-name">Icon Bag</div>
+<div class="price">€145</div>
+</div>
+
+</div>
+
+</section>
+
+
+<section id="marca" class="about">
+
+<img class="about-image"
+src="https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?auto=format&fit=crop&w=1200&q=85">
+
+<div class="about-text">
+
+<div class="section-label">02 — J.BICIN</div>
+
+<h2>Menos ruido.<br>Más estilo.</h2>
+
+<p>
+J.BICIN nace con una visión clara: crear una expresión de
+moda elegante, minimalista y atemporal.
+</p>
+
+<p>
+Nuestra estética combina blanco, negro y beige con un
+color protagonista de temporada.
+</p>
+
+<p>
+Piezas cuidadosamente seleccionadas para personas que
+valoran la calidad, el detalle y la sofisticación.
+</p>
+
+</div>
+
+</section>
+
+
+<section id="lookbook">
+
+<div class="section-label">03 — Lookbook</div>
+
+<h2>The J.BICIN Edit</h2>
+
+<div class="lookbook">
+
+<div class="look one">
+Noir Edition
+</div>
+
+<div class="look two">
+Beige Season
+</div>
+
+</div>
+
+</section>
+
+
+<section id="contacto" class="contact">
+
+<div class="section-label">04 — Contact</div>
+
+<h2>Hablemos.</h2>
+
+<p>
+¿Quieres información sobre una prenda, tallas,
+disponibilidad o realizar un pedido?
+Nuestro equipo está disponible por WhatsApp.
+</p>
+
+<a href="https://wa.me/34688749955?text=Hola%20J.BICIN,%20quiero%20información."
+target="_blank"
+class="button">
+Escribir por WhatsApp
+</a>
+
+</section>
+
+
+<footer>
+
+<div>© 2026 J.BICIN</div>
+
+<div>LUXURY · MINIMAL · TIMELESS</div>
+
+</footer>
+
+
+<a class="whatsapp"
+href="https://wa.me/34688749955?text=Hola%20J.BICIN,%20quiero%20información."
+target="_blank">
+WHATSAPP
+</a>
+
+</body>
+</html>
