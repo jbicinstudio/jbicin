@@ -739,3 +739,37 @@ function escapeHtml(value) {
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#039;");
 }
+document.addEventListener("click", (event) => {
+  if (event.target.id === "newProductBtn") {
+    createProduct();
+  }
+});
+
+async function createProduct() {
+  const name = prompt("Nombre del producto:");
+  if (!name) return;
+
+  const price = Number(prompt("Precio (€):"));
+  if (isNaN(price)) return;
+
+  const { error } = await jbicinSupabase
+    .from("products")
+    .insert({
+      name: name,
+      slug: name.toLowerCase().replace(/\s+/g, "-"),
+      gender: "unisex",
+      price_eur: price,
+      is_published: false
+    });
+
+  if (error) {
+    alert("Error al crear el producto");
+    console.error(error);
+    return;
+  }
+
+  alert("Producto creado correctamente ✨");
+
+  if (typeof loadProducts === "function") await loadProducts();
+  if (typeof loadDashboard === "function") await loadDashboard();
+}
