@@ -165,7 +165,156 @@
         ></div>
 
       </form>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
 
+  const form = document.getElementById("productForm");
+  const message = document.getElementById("productFormMessage");
+
+  if (!form) return;
+
+  form.addEventListener("submit", async (event) => {
+
+    event.preventDefault();
+
+    message.textContent = "Guardando producto...";
+    message.style.display = "block";
+
+    const name =
+      document.getElementById("productName").value.trim();
+
+    const description =
+      document.getElementById("productDescription").value.trim();
+
+    const categoryId =
+      document.getElementById("productCategory").value || null;
+
+    const gender =
+      document.getElementById("productGender").value;
+
+    const price =
+      Number(document.getElementById("productPrice").value);
+
+    const comparePriceValue =
+      document.getElementById("productComparePrice").value;
+
+    const comparePrice =
+      comparePriceValue
+        ? Number(comparePriceValue)
+        : null;
+
+    const slugInput =
+      document.getElementById("productSlug").value.trim();
+
+    const slug =
+      slugInput ||
+      name
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-|-$/g, "");
+
+    if (!name || !price) {
+      message.textContent =
+        "Completa el nombre y el precio.";
+
+      return;
+    }
+
+    const { data: product, error } =
+      await jbicinSupabase
+        .from("products")
+        .insert({
+          name,
+          slug,
+          description,
+          category_id: categoryId,
+          gender,
+          price_eur: price,
+          compare_price_eur: comparePrice,
+          is_published: false,
+          is_new:
+            document.getElementById("productNew").checked,
+          is_bestseller:
+            document.getElementById("productBestseller").checked,
+          is_limited:
+            document.getElementById("productLimited").checked,
+          is_featured:
+            document.getElementById("productFeatured").checked
+        })
+        .select()
+        .single();
+
+    if (error) {
+
+      console.error(error);
+
+      message.textContent =
+        "No se pudo guardar el producto: " +
+        error.message;
+
+      return;
+    }
+
+    const size =
+      document.getElementById("variantSize").value.trim();
+
+    const color =
+      document.getElementById("variantColor").value.trim();
+
+    const sku =
+      document.getElementById("variantSku").value.trim();
+
+    const stock =
+      Number(
+        document.getElementById("variantStock").value || 0
+      );
+
+    if (size || color || sku || stock > 0) {
+
+      const { error: variantError } =
+        await jbicinSupabase
+          .from("product_variants")
+          .insert({
+            product_id: product.id,
+            size,
+            color,
+            sku: sku || null,
+            stock
+          });
+
+      if (variantError) {
+
+        console.error(variantError);
+
+        message.textContent =
+          "El producto se creó, pero hubo un problema con la variante: " +
+          variantError.message;
+
+        return;
+      }
+    }
+
+    message.textContent =
+      "✓ Producto guardado como borrador.";
+
+    form.reset();
+
+    document.getElementById("variantStock").value = 0;
+
+    if (typeof loadProducts === "function") {
+      await loadProducts();
+    }
+
+    if (typeof loadDashboard === "function") {
+      await loadDashboard();
+    }
+
+  });
+
+});
+</script>
     </div>
 
   </div>
@@ -301,7 +450,241 @@
 
       </section>
 
+      <!-- ==========================================
+           NUEVO PRODUCTO
+      =========================================== -->
 
+      <div id="productFormPanel" class="panel product-form-panel hidden">
+
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">J.BICIN BUSINESS</p>
+            <h2>Nuevo producto</h2>
+            <p class="muted">
+              Crea un producto y déjalo como borrador hasta que quieras publicarlo.
+            </p>
+          </div>
+
+          <button
+            type="button"
+            class="small-btn"
+            id="cancelProductBtn"
+          >
+            Cancelar
+          </button>
+        </div>
+
+
+        <form id="productForm">
+
+          <div class="form-grid">
+
+            <div class="form-field">
+              <label for="productName">Nombre *</label>
+              <input
+                id="productName"
+                type="text"
+                placeholder="Ej. Heritage Wool Coat"
+                required
+              >
+            </div>
+
+
+            <div class="form-field">
+              <label for="productSlug">Slug</label>
+              <input
+                id="productSlug"
+                type="text"
+                placeholder="heritage-wool-coat"
+              >
+            </div>
+
+
+            <div class="form-field full">
+              <label for="productDescription">Descripción</label>
+              <textarea
+                id="productDescription"
+                rows="5"
+                placeholder="Describe la pieza, materiales, corte y detalles..."
+              ></textarea>
+            </div>
+
+
+            <div class="form-field">
+              <label for="productCategory">Categoría</label>
+              <select id="productCategory">
+                <option value="">Seleccionar categoría</option>
+              </select>
+            </div>
+
+
+            <div class="form-field">
+              <label for="productGender">Género</label>
+              <select id="productGender">
+                <option value="unisex">Unisex</option>
+                <option value="mujer">Mujer</option>
+                <option value="hombre">Hombre</option>
+              </select>
+            </div>
+
+
+            <div class="form-field">
+              <label for="productPrice">Precio (€) *</label>
+              <input
+                id="productPrice"
+                type="number"
+                min="0"
+                step="0.01"
+                placeholder="289.00"
+                required
+              >
+            </div>
+
+
+            <div class="form-field">
+              <label for="productComparePrice">Precio anterior (€)</label>
+              <input
+                id="productComparePrice"
+                type="number"
+                min="0"
+                step="0.01"
+                placeholder="349.00"
+              >
+            </div>
+
+          </div>
+
+
+          <div class="form-divider"></div>
+
+
+          <div class="form-section-title">
+            <p class="eyebrow">COLECCIÓN</p>
+            <h3>Visibilidad y etiquetas</h3>
+          </div>
+
+
+          <div class="checkbox-grid">
+
+            <label class="check-card">
+              <input type="checkbox" id="productNew">
+              <span>
+                <strong>Nuevo</strong>
+                <small>Nueva llegada</small>
+              </span>
+            </label>
+
+
+            <label class="check-card">
+              <input type="checkbox" id="productBestseller">
+              <span>
+                <strong>Bestseller</strong>
+                <small>Más vendido</small>
+              </span>
+            </label>
+
+
+            <label class="check-card">
+              <input type="checkbox" id="productLimited">
+              <span>
+                <strong>Edición limitada</strong>
+                <small>Unidades especiales</small>
+              </span>
+            </label>
+
+
+            <label class="check-card">
+              <input type="checkbox" id="productFeatured">
+              <span>
+                <strong>Destacado</strong>
+                <small>Mostrar como pieza destacada</small>
+              </span>
+            </label>
+
+          </div>
+
+
+          <div class="form-divider"></div>
+
+
+          <div class="form-section-title">
+            <p class="eyebrow">INVENTARIO</p>
+            <h3>Primera variante</h3>
+          </div>
+
+
+          <div class="form-grid">
+
+            <div class="form-field">
+              <label for="variantSize">Talla</label>
+              <input
+                id="variantSize"
+                type="text"
+                placeholder="S, M, L, XL"
+              >
+            </div>
+
+
+            <div class="form-field">
+              <label for="variantColor">Color</label>
+              <input
+                id="variantColor"
+                type="text"
+                placeholder="Beige"
+              >
+            </div>
+
+
+            <div class="form-field">
+              <label for="variantSku">SKU</label>
+              <input
+                id="variantSku"
+                type="text"
+                placeholder="JB-HWC-BEI-M"
+              >
+            </div>
+
+
+            <div class="form-field">
+              <label for="variantStock">Stock inicial</label>
+              <input
+                id="variantStock"
+                type="number"
+                min="0"
+                step="1"
+                value="0"
+              >
+            </div>
+
+          </div>
+
+
+          <div id="productFormMessage" class="form-message"></div>
+
+
+          <div class="form-actions">
+
+            <button
+              type="button"
+              class="small-btn"
+              id="cancelProductBtnBottom"
+            >
+              Cancelar
+            </button>
+
+            <button
+              type="submit"
+              class="primary-btn"
+              id="saveProductBtn"
+            >
+              GUARDAR BORRADOR
+            </button>
+
+          </div>
+
+        </form>
+
+      </div>
       <section id="products" class="admin-section">
 
         <div class="section-heading">
