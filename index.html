@@ -2,295 +2,599 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>J.BICIN | Luxury Fashion</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>J.BICIN — Luxury Without Noise</title>
+<meta name="description" content="J.BICIN — Luxury fashion for women and men.">
 
 <style>
-
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
+:root{
+ --black:#101010;
+ --white:#fff;
+ --beige:#f3eee6;
+ --cream:#faf8f4;
+ --gold:#9a7a45;
+ --grey:#777;
+ --line:#ded9d1;
 }
 
-html{
-    scroll-behavior:smooth;
-}
-
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
 body{
-    font-family:Arial, Helvetica, sans-serif;
-    color:#111;
-    background:#fff;
+ font-family:Arial,Helvetica,sans-serif;
+ background:var(--white);
+ color:var(--black);
 }
+button,input,select{font:inherit}
+button{cursor:pointer}
 
 header{
-    position:fixed;
-    top:0;
-    width:100%;
-    z-index:100;
-    background:rgba(255,255,255,.94);
-    border-bottom:1px solid #eee;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:22px 6%;
+ position:fixed;
+ top:0;
+ left:0;
+ right:0;
+ z-index:1000;
+ height:76px;
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ padding:0 5%;
+ background:rgba(255,255,255,.94);
+ backdrop-filter:blur(15px);
+ border-bottom:1px solid #eee;
 }
 
 .logo{
-    font-size:23px;
-    font-weight:bold;
-    letter-spacing:6px;
+ font-size:22px;
+ font-weight:bold;
+ letter-spacing:7px;
 }
 
 nav{
-    display:flex;
-    gap:30px;
+ display:flex;
+ gap:27px;
 }
 
 nav a{
-    text-decoration:none;
-    color:#111;
-    font-size:12px;
-    letter-spacing:2px;
-    text-transform:uppercase;
+ color:#111;
+ text-decoration:none;
+ font-size:10px;
+ letter-spacing:1.8px;
+ text-transform:uppercase;
+}
+
+.header-actions{
+ display:flex;
+ gap:14px;
+ align-items:center;
+}
+
+.icon-btn{
+ border:0;
+ background:none;
+ font-size:18px;
+ position:relative;
+}
+
+.cart-count{
+ position:absolute;
+ top:-8px;
+ right:-8px;
+ width:17px;
+ height:17px;
+ background:#111;
+ color:white;
+ border-radius:50%;
+ font-size:9px;
+ display:grid;
+ place-items:center;
 }
 
 .hero{
-    height:100vh;
-    min-height:650px;
-    background:
-    linear-gradient(rgba(0,0,0,.35),rgba(0,0,0,.35)),
-    url("https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=2000&q=85")
-    center/cover;
-    display:flex;
-    align-items:flex-end;
-    padding:0 7% 90px;
-    color:white;
+ min-height:100vh;
+ padding:150px 7% 90px;
+ color:white;
+ display:flex;
+ align-items:flex-end;
+ background:
+ linear-gradient(90deg,rgba(0,0,0,.58),rgba(0,0,0,.12)),
+ url("https://images.unsplash.com/photo-1490481651871-ab68de25d43d?auto=format&fit=crop&w=2200&q=85")
+ center/cover;
 }
 
-.hero-content{
-    max-width:650px;
+.hero-content{max-width:700px}
+.eyebrow{
+ font-size:10px;
+ letter-spacing:4px;
+ text-transform:uppercase;
+ color:var(--gold);
+ margin-bottom:17px;
 }
-
-.small{
-    font-size:11px;
-    letter-spacing:4px;
-    text-transform:uppercase;
-    margin-bottom:20px;
-}
+.hero .eyebrow{color:#e6d5b8}
 
 .hero h1{
-    font-size:clamp(55px,9vw,110px);
-    font-weight:400;
-    line-height:.9;
-    margin-bottom:25px;
+ font-size:clamp(60px,10vw,130px);
+ font-weight:300;
+ line-height:.86;
+ letter-spacing:-6px;
+ margin-bottom:27px;
 }
 
 .hero p{
-    font-size:17px;
-    line-height:1.7;
-    max-width:500px;
-    margin-bottom:30px;
+ max-width:530px;
+ font-size:16px;
+ line-height:1.8;
+ margin-bottom:30px;
 }
 
-.button{
-    display:inline-block;
-    padding:16px 28px;
-    background:white;
-    color:#111;
-    text-decoration:none;
-    font-size:11px;
-    letter-spacing:2px;
-    text-transform:uppercase;
-    margin-right:8px;
+.btn{
+ display:inline-block;
+ border:1px solid #111;
+ padding:16px 27px;
+ text-decoration:none;
+ text-transform:uppercase;
+ letter-spacing:2px;
+ font-size:10px;
+ background:#111;
+ color:white;
+ transition:.3s;
 }
 
-.button.dark{
-    background:#111;
-    color:white;
+.btn:hover{
+ background:white;
+ color:#111;
 }
 
-section{
-    padding:110px 7%;
+.btn.white{
+ background:white;
+ color:#111;
+ border-color:white;
 }
 
-.section-label{
-    color:#9b7b4d;
-    font-size:11px;
-    letter-spacing:4px;
-    text-transform:uppercase;
-    margin-bottom:15px;
+section{padding:105px 7%}
+
+.section-title{
+ font-size:clamp(38px,5vw,65px);
+ font-weight:300;
+ letter-spacing:-3px;
+ margin-bottom:45px;
 }
 
-h2{
-    font-size:55px;
-    font-weight:400;
-    margin-bottom:50px;
+.category-bar{
+ display:flex;
+ flex-wrap:wrap;
+ gap:10px;
+ margin-bottom:35px;
+}
+
+.category{
+ background:white;
+ border:1px solid var(--line);
+ padding:12px 18px;
+ font-size:10px;
+ letter-spacing:1.5px;
+ text-transform:uppercase;
+}
+
+.category.active,.category:hover{
+ background:#111;
+ color:white;
+}
+
+.toolbar{
+ display:flex;
+ justify-content:space-between;
+ gap:20px;
+ margin-bottom:25px;
+}
+
+.search{
+ border:1px solid var(--line);
+ padding:13px 16px;
+ width:280px;
+ outline:none;
+}
+
+select{
+ border:1px solid var(--line);
+ padding:13px 16px;
+ background:white;
 }
 
 .products{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:20px;
+ display:grid;
+ grid-template-columns:repeat(4,1fr);
+ gap:22px;
+}
+
+.product{
+ cursor:pointer;
+ position:relative;
 }
 
 .product-image{
-    width:100%;
-    aspect-ratio:4/5;
-    object-fit:cover;
-    background:#f2eee7;
+ width:100%;
+ aspect-ratio:4/5;
+ object-fit:cover;
+ background:var(--beige);
+ transition:.6s;
 }
 
-.product-name{
-    margin-top:15px;
-    font-size:15px;
+.product:hover .product-image{
+ transform:scale(1.02);
 }
 
-.price{
-    color:#777;
-    margin-top:7px;
-    font-size:13px;
+.product-info{padding:14px 0}
+.product-name{font-size:14px}
+.product-meta{
+ display:flex;
+ justify-content:space-between;
+ margin-top:7px;
+ color:var(--grey);
+ font-size:12px;
+}
+
+.favorite{
+ position:absolute;
+ top:14px;
+ right:14px;
+ border:0;
+ background:white;
+ width:34px;
+ height:34px;
+ border-radius:50%;
+ z-index:2;
+}
+
+.badge{
+ position:absolute;
+ top:14px;
+ left:14px;
+ background:#111;
+ color:white;
+ padding:7px 10px;
+ font-size:8px;
+ letter-spacing:1px;
+ z-index:2;
 }
 
 .about{
-    background:#f3eee6;
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:80px;
-    align-items:center;
+ background:var(--beige);
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:8%;
+ align-items:center;
 }
 
 .about-image{
-    width:100%;
-    height:650px;
-    object-fit:cover;
+ width:100%;
+ height:620px;
+ object-fit:cover;
 }
 
 .about-text p{
-    color:#555;
-    line-height:2;
-    margin-bottom:20px;
-    max-width:550px;
+ max-width:560px;
+ color:#555;
+ line-height:2;
+ margin-bottom:20px;
 }
 
 .lookbook{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:20px;
+ display:grid;
+ grid-template-columns:1fr 1fr;
+ gap:20px;
 }
 
 .look{
-    height:600px;
-    background-size:cover;
-    background-position:center;
-    display:flex;
-    align-items:flex-end;
-    padding:35px;
-    color:white;
-    font-size:27px;
+ height:600px;
+ display:flex;
+ align-items:flex-end;
+ padding:35px;
+ color:white;
+ font-size:30px;
+ background-size:cover;
+ background-position:center;
+ position:relative;
 }
 
-.look.one{
-    background-image:
-    linear-gradient(transparent,rgba(0,0,0,.55)),
-    url("https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=1200&q=85");
+.look:after{
+ content:"";
+ position:absolute;
+ inset:0;
+ background:linear-gradient(transparent,rgba(0,0,0,.6));
 }
 
-.look.two{
-    background-image:
-    linear-gradient(transparent,rgba(0,0,0,.55)),
-    url("https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1200&q=85");
+.look span{position:relative;z-index:2}
+
+.services{
+ display:grid;
+ grid-template-columns:repeat(4,1fr);
+ border-top:1px solid var(--line);
+ border-bottom:1px solid var(--line);
+}
+
+.service{
+ padding:35px 25px;
+ border-right:1px solid var(--line);
+}
+
+.service:last-child{border-right:0}
+.service strong{
+ display:block;
+ margin-bottom:10px;
+ font-size:13px;
+}
+.service p{
+ color:var(--grey);
+ font-size:12px;
+ line-height:1.6;
+}
+
+.newsletter{
+ background:#f8f6f2;
+ text-align:center;
+}
+
+.newsletter p{
+ color:#666;
+ margin:-25px auto 25px;
+ max-width:500px;
+ line-height:1.7;
+}
+
+.newsletter-form{
+ display:flex;
+ max-width:520px;
+ margin:auto;
+}
+
+.newsletter-form input{
+ flex:1;
+ border:1px solid var(--line);
+ padding:16px;
+ outline:none;
+}
+
+.newsletter-form button{
+ border:0;
+ background:#111;
+ color:white;
+ padding:0 25px;
+ letter-spacing:1px;
+ font-size:10px;
 }
 
 .contact{
-    background:#111;
-    color:white;
-    text-align:center;
+ background:#111;
+ color:white;
+ text-align:center;
 }
 
 .contact p{
-    max-width:550px;
-    margin:0 auto 30px;
-    color:#aaa;
-    line-height:1.8;
+ color:#aaa;
+ max-width:550px;
+ margin:-25px auto 30px;
+ line-height:1.8;
 }
 
-.contact .button{
-    margin:0;
+.contact-info{
+ margin-top:30px;
+ display:flex;
+ justify-content:center;
+ gap:30px;
+ flex-wrap:wrap;
+ color:#ccc;
+ font-size:13px;
 }
 
 footer{
-    background:#111;
-    color:#777;
-    border-top:1px solid #333;
-    padding:30px 7%;
-    display:flex;
-    justify-content:space-between;
-    font-size:11px;
-    letter-spacing:2px;
+ background:#111;
+ color:#777;
+ border-top:1px solid #333;
+ padding:30px 7%;
+ display:flex;
+ justify-content:space-between;
+ font-size:10px;
+ letter-spacing:1.5px;
+}
+
+/* CART */
+.cart-panel{
+ position:fixed;
+ top:0;
+ right:-450px;
+ width:min(430px,100%);
+ height:100vh;
+ background:white;
+ z-index:2000;
+ box-shadow:-10px 0 40px #0002;
+ transition:.4s;
+ padding:30px;
+ overflow:auto;
+}
+
+.cart-panel.open{right:0}
+
+.cart-header{
+ display:flex;
+ justify-content:space-between;
+ margin-bottom:30px;
+}
+
+.cart-header button{
+ border:0;
+ background:none;
+ font-size:25px;
+}
+
+.cart-item{
+ display:flex;
+ gap:15px;
+ border-bottom:1px solid var(--line);
+ padding:15px 0;
+}
+
+.cart-item img{
+ width:75px;
+ height:95px;
+ object-fit:cover;
+}
+
+.cart-item-info{flex:1}
+.cart-item-info strong{font-size:13px}
+.cart-item-info small{
+ display:block;
+ color:#777;
+ margin-top:8px;
+}
+
+.remove{
+ border:0;
+ background:none;
+ color:#999;
+}
+
+.cart-total{
+ margin-top:25px;
+ display:flex;
+ justify-content:space-between;
+ font-size:18px;
+}
+
+.cart-actions{
+ margin-top:25px;
+ display:grid;
+ gap:10px;
 }
 
 .whatsapp{
-    position:fixed;
-    right:25px;
-    bottom:25px;
-    background:#111;
-    color:white;
-    padding:17px 22px;
-    border-radius:30px;
-    text-decoration:none;
-    font-size:11px;
-    letter-spacing:2px;
-    z-index:200;
+ position:fixed;
+ bottom:22px;
+ right:22px;
+ z-index:1500;
+ background:#111;
+ color:white;
+ padding:16px 21px;
+ border-radius:30px;
+ text-decoration:none;
+ font-size:10px;
+ letter-spacing:2px;
+ box-shadow:0 10px 30px #0003;
 }
 
-@media(max-width:850px){
+/* DASHBOARD */
+.dashboard{
+ background:#f6f4f0;
+}
 
-    header{
-        padding:18px 5%;
-    }
+.dashboard-grid{
+ display:grid;
+ grid-template-columns:repeat(4,1fr);
+ gap:15px;
+ margin-bottom:30px;
+}
 
-    nav{
-        display:none;
-    }
+.stat{
+ background:white;
+ padding:25px;
+ border:1px solid var(--line);
+}
 
-    section{
-        padding:75px 6%;
-    }
+.stat span{
+ display:block;
+ color:#777;
+ font-size:10px;
+ text-transform:uppercase;
+ letter-spacing:1.5px;
+ margin-bottom:12px;
+}
 
-    h2{
-        font-size:42px;
-    }
+.stat strong{
+ font-size:28px;
+ font-weight:400;
+}
 
-    .products{
-        grid-template-columns:repeat(2,1fr);
-    }
+.dashboard-table{
+ width:100%;
+ background:white;
+ border-collapse:collapse;
+}
 
-    .about{
-        grid-template-columns:1fr;
-        gap:40px;
-    }
+.dashboard-table th,
+.dashboard-table td{
+ text-align:left;
+ padding:15px;
+ border-bottom:1px solid var(--line);
+ font-size:12px;
+}
 
-    .about-image{
-        height:450px;
-    }
+.hidden{display:none!important}
 
-    .lookbook{
-        grid-template-columns:1fr;
-    }
+@media(max-width:900px){
 
-    .look{
-        height:500px;
-    }
+ header{height:65px}
+ nav{display:none}
 
-    footer{
-        flex-direction:column;
-        gap:15px;
-    }
+ .products{grid-template-columns:repeat(2,1fr)}
+
+ .about{
+  grid-template-columns:1fr;
+  gap:35px;
+ }
+
+ .about-image{height:450px}
+
+ .lookbook{grid-template-columns:1fr}
+
+ .services{grid-template-columns:repeat(2,1fr)}
+
+ .service:nth-child(2){
+  border-right:0;
+ }
+
+ .toolbar{
+  flex-direction:column;
+ }
+
+ .search{width:100%}
+
+ .dashboard-grid{
+  grid-template-columns:repeat(2,1fr);
+ }
 
 }
 
+@media(max-width:600px){
+
+ section{padding:75px 6%}
+
+ .hero{padding:120px 6% 65px}
+
+ .hero h1{letter-spacing:-3px}
+
+ .products{gap:12px}
+
+ .services{grid-template-columns:1fr}
+
+ .service{
+  border-right:0;
+  border-bottom:1px solid var(--line);
+ }
+
+ .newsletter-form{
+  flex-direction:column;
+  gap:10px;
+ }
+
+ .newsletter-form button{
+  padding:16px;
+ }
+
+ footer{
+  flex-direction:column;
+  gap:15px;
+ }
+
+}
 </style>
 </head>
 
@@ -298,36 +602,49 @@ footer{
 
 <header>
 
-<div class="logo">J.BICIN</div>
+<a class="logo" href="#inicio">J.BICIN</a>
 
 <nav>
-<a href="#coleccion">Colección</a>
-<a href="#marca">La marca</a>
+<a href="#coleccion">Shop</a>
+<a href="#mujer">Mujer</a>
+<a href="#hombre">Hombre</a>
+<a href="#accesorios">Accesorios</a>
+<a href="#perfumes">Perfumes</a>
 <a href="#lookbook">Lookbook</a>
-<a href="#contacto">Contacto</a>
+<a href="#marca">J.BICIN</a>
 </nav>
+
+<div class="header-actions">
+<button class="icon-btn" onclick="toggleCart()" aria-label="Carrito">
+🛒
+<span class="cart-count" id="cartCount">0</span>
+</button>
+</div>
 
 </header>
 
 
-<section class="hero">
+<main>
+
+<section id="inicio" class="hero">
 
 <div class="hero-content">
 
-<div class="small">New Season · J.BICIN</div>
+<div class="eyebrow">J.BICIN — New Season</div>
 
 <h1>Quiet<br>Luxury.</h1>
 
 <p>
-Elegancia contemporánea, líneas limpias y piezas atemporales
-para quienes entienden el lujo como una forma de expresión.
+Una nueva expresión de elegancia contemporánea.
+Diseños limpios, piezas atemporales y una identidad
+creada para destacar sin necesidad de ruido.
 </p>
 
-<a href="#coleccion" class="button">Ver colección</a>
+<a href="#coleccion" class="btn white">Descubrir colección</a>
 
 <a href="https://wa.me/34688749955?text=Hola%20J.BICIN,%20quiero%20información%20sobre%20la%20colección."
-target="_blank"
-class="button dark">
+class="btn"
+target="_blank">
 WhatsApp
 </a>
 
@@ -338,70 +655,76 @@ WhatsApp
 
 <section id="coleccion">
 
-<div class="section-label">01 — Collection</div>
+<div class="eyebrow">01 — Shop</div>
 
-<h2>Selección J.BICIN</h2>
+<h2 class="section-title">The J.BICIN Edit</h2>
 
-<div class="products">
+<div class="category-bar">
 
-<div>
-<img class="product-image"
-src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&w=900&q=85">
-<div class="product-name">Noir Blazer</div>
-<div class="price">€189</div>
-</div>
-
-<div>
-<img class="product-image"
-src="https://images.unsplash.com/photo-1544022613-e87ca75a784a?auto=format&fit=crop&w=900&q=85">
-<div class="product-name">Beige Signature</div>
-<div class="price">€249</div>
-</div>
-
-<div>
-<img class="product-image"
-src="https://images.unsplash.com/photo-1603252109303-2751441dd157?auto=format&fit=crop&w=900&q=85">
-<div class="product-name">Essential White</div>
-<div class="price">€79</div>
-</div>
-
-<div>
-<img class="product-image"
-src="https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=900&q=85">
-<div class="product-name">Icon Bag</div>
-<div class="price">€145</div>
-</div>
+<button class="category active" onclick="filterProducts('all',this)">Todo</button>
+<button class="category" onclick="filterProducts('mujer',this)">Mujer</button>
+<button class="category" onclick="filterProducts('hombre',this)">Hombre</button>
+<button class="category" onclick="filterProducts('accesorios',this)">Accesorios</button>
+<button class="category" onclick="filterProducts('perfumes',this)">Perfumes</button>
 
 </div>
+
+<div class="toolbar">
+
+<input
+id="search"
+class="search"
+placeholder="Buscar producto..."
+oninput="searchProducts()">
+
+<select id="sort" onchange="sortProducts()">
+<option value="default">Ordenar</option>
+<option value="low">Precio: menor a mayor</option>
+<option value="high">Precio: mayor a menor</option>
+</select>
+
+</div>
+
+<div id="products" class="products"></div>
 
 </section>
 
 
-<section id="marca" class="about">
+<section class="about" id="marca">
 
-<img class="about-image"
-src="https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?auto=format&fit=crop&w=1200&q=85">
+<img
+class="about-image"
+src="https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?auto=format&fit=crop&w=1300&q=85"
+alt="J.BICIN fashion">
+
+<div>
+
+<div class="eyebrow">02 — The House</div>
+
+<h2 class="section-title">
+Less noise.<br>
+More identity.
+</h2>
 
 <div class="about-text">
 
-<div class="section-label">02 — J.BICIN</div>
-
-<h2>Menos ruido.<br>Más estilo.</h2>
-
 <p>
-J.BICIN nace con una visión clara: crear una expresión de
-moda elegante, minimalista y atemporal.
+J.BICIN nace de una idea sencilla: la verdadera elegancia
+no necesita exagerar.
 </p>
 
 <p>
-Nuestra estética combina blanco, negro y beige con un
-color protagonista de temporada.
+Nuestra propuesta combina siluetas contemporáneas,
+tonos neutros y detalles cuidadosamente seleccionados
+para construir un lenguaje propio.
 </p>
 
 <p>
-Piezas cuidadosamente seleccionadas para personas que
-valoran la calidad, el detalle y la sofisticación.
+Cada temporada introduce un color distintivo sin perder
+la esencia de la casa: blanco, negro y beige.
 </p>
+
+</div>
 
 </div>
 
@@ -410,60 +733,546 @@ valoran la calidad, el detalle y la sofisticación.
 
 <section id="lookbook">
 
-<div class="section-label">03 — Lookbook</div>
+<div class="eyebrow">03 — Editorial</div>
 
-<h2>The J.BICIN Edit</h2>
+<h2 class="section-title">The Lookbook</h2>
 
 <div class="lookbook">
 
-<div class="look one">
-Noir Edition
+<div class="look"
+style="background-image:url('https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=1300&q=85')">
+<span>NOIR / 26</span>
 </div>
 
-<div class="look two">
-Beige Season
+<div class="look"
+style="background-image:url('https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1300&q=85')">
+<span>BEIGE / 26</span>
 </div>
 
 </div>
+
+</section>
+
+
+<section>
+
+<div class="services">
+
+<div class="service">
+<strong>Worldwide Shipping</strong>
+<p>Envíos internacionales para llevar J.BICIN más allá.</p>
+</div>
+
+<div class="service">
+<strong>Personal Assistance</strong>
+<p>Atención personalizada para elegir tu próxima pieza.</p>
+</div>
+
+<div class="service">
+<strong>Limited Editions</strong>
+<p>Lanzamientos exclusivos en cantidades limitadas.</p>
+</div>
+
+<div class="service">
+<strong>Luxury Packaging</strong>
+<p>Cada pedido preparado como una experiencia.</p>
+</div>
+
+</div>
+
+</section>
+
+
+<section class="newsletter">
+
+<div class="eyebrow">Private Access</div>
+
+<h2 class="section-title">Enter J.BICIN.</h2>
+
+<p>
+Recibe antes que nadie nuevos lanzamientos,
+colecciones privadas y ediciones limitadas.
+</p>
+
+<form class="newsletter-form" onsubmit="subscribe(event)">
+
+<input
+id="email"
+type="email"
+required
+placeholder="Tu email">
+
+<button type="submit">Suscribirme</button>
+
+</form>
+
+</section>
+
+
+<section class="dashboard" id="gestion">
+
+<div class="eyebrow">Private Dashboard</div>
+
+<h2 class="section-title">J.BICIN Business</h2>
+
+<div class="dashboard-grid">
+
+<div class="stat">
+<span>Ventas</span>
+<strong>€8.420</strong>
+</div>
+
+<div class="stat">
+<span>Pedidos</span>
+<strong>64</strong>
+</div>
+
+<div class="stat">
+<span>Productos vendidos</span>
+<strong>91</strong>
+</div>
+
+<div class="stat">
+<span>Beneficio estimado</span>
+<strong>€5.270</strong>
+</div>
+
+</div>
+
+<table class="dashboard-table">
+
+<tr>
+<th>Área</th>
+<th>Estado</th>
+<th>Objetivo</th>
+</tr>
+
+<tr>
+<td>Inventario</td>
+<td>Activo</td>
+<td>Controlar stock</td>
+</tr>
+
+<tr>
+<td>Pedidos</td>
+<td>Activo</td>
+<td>Gestionar ventas</td>
+</tr>
+
+<tr>
+<td>Finanzas</td>
+<td>Preparado</td>
+<td>Ingresos / gastos / beneficio</td>
+</tr>
+
+<tr>
+<td>Clientes</td>
+<td>Preparado</td>
+<td>CRM</td>
+</tr>
+
+</table>
 
 </section>
 
 
 <section id="contacto" class="contact">
 
-<div class="section-label">04 — Contact</div>
+<div class="eyebrow">04 — Contact</div>
 
-<h2>Hablemos.</h2>
+<h2 class="section-title">Hablemos.</h2>
 
 <p>
-¿Quieres información sobre una prenda, tallas,
-disponibilidad o realizar un pedido?
-Nuestro equipo está disponible por WhatsApp.
+Pedidos, tallas, disponibilidad, colaboraciones o
+asesoramiento personalizado.
 </p>
 
-<a href="https://wa.me/34688749955?text=Hola%20J.BICIN,%20quiero%20información."
-target="_blank"
-class="button">
-Escribir por WhatsApp
+<a
+class="btn white"
+href="https://wa.me/34688749955?text=Hola%20J.BICIN,%20quiero%20información."
+target="_blank">
+WhatsApp
 </a>
 
+<div class="contact-info">
+
+<span>📱 +34 688 749 955</span>
+
+<a href="mailto:jokinbicin@gmail.com">✉️ jokinbicin@gmail.com</a>
+
+</div>
+
 </section>
+
+</main>
 
 
 <footer>
 
-<div>© 2026 J.BICIN</div>
+<span>© 2026 J.BICIN</span>
 
-<div>LUXURY · MINIMAL · TIMELESS</div>
+<span>LUXURY · MINIMAL · TIMELESS</span>
 
 </footer>
 
 
-<a class="whatsapp"
+<a
+class="whatsapp"
 href="https://wa.me/34688749955?text=Hola%20J.BICIN,%20quiero%20información."
 target="_blank">
 WHATSAPP
 </a>
+
+
+<div id="cartPanel" class="cart-panel">
+
+<div class="cart-header">
+
+<strong>YOUR BAG</strong>
+
+<button onclick="toggleCart()">×</button>
+
+</div>
+
+<div id="cartItems"></div>
+
+<div class="cart-total">
+
+<strong>Total</strong>
+
+<strong id="cartTotal">€0</strong>
+
+</div>
+
+<div class="cart-actions">
+
+<a
+id="orderWhatsApp"
+class="btn"
+target="_blank">
+Pedir por WhatsApp
+</a>
+
+<button class="btn" onclick="clearCart()">
+Vaciar carrito
+</button>
+
+</div>
+
+</div>
+
+
+<script>
+
+const WHATSAPP="34688749955";
+
+let currency="EUR";
+
+let products=[
+
+{
+ id:1,
+ name:"Noir Blazer",
+ category:"mujer",
+ price:189,
+ image:"https://images.unsplash.com/photo-1591047139829-d91aecb6caea?auto=format&fit=crop&w=900&q=85"
+},
+
+{
+ id:2,
+ name:"Beige Signature",
+ category:"mujer",
+ price:249,
+ image:"https://images.unsplash.com/photo-1544022613-e87ca75a784a?auto=format&fit=crop&w=900&q=85"
+},
+
+{
+ id:3,
+ name:"Essential White",
+ category:"hombre",
+ price:79,
+ image:"https://images.unsplash.com/photo-1603252109303-2751441dd157?auto=format&fit=crop&w=900&q=85"
+},
+
+{
+ id:4,
+ name:"Icon Bag",
+ category:"accesorios",
+ price:145,
+ image:"https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=900&q=85"
+},
+
+{
+ id:5,
+ name:"Signature Trench",
+ category:"hombre",
+ price:229,
+ image:"https://images.unsplash.com/photo-1548883354-7622d03aca27?auto=format&fit=crop&w=900&q=85"
+},
+
+{
+ id:6,
+ name:"Silk Dress",
+ category:"mujer",
+ price:159,
+ image:"https://images.unsplash.com/photo-1566174053879-31528523f8ae?auto=format&fit=crop&w=900&q=85"
+},
+
+{
+ id:7,
+ name:"Essential Tee",
+ category:"hombre",
+ price:59,
+ image:"https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=900&q=85"
+},
+
+{
+ id:8,
+ name:"J.BICIN Nº01",
+ category:"perfumes",
+ price:95,
+ image:"https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&w=900&q=85"
+}
+
+];
+
+let cart=[];
+
+function formatPrice(price){
+
+ if(currency==="USD"){
+   return "$"+(price*1.08).toFixed(0);
+ }
+
+ if(currency==="GBP"){
+   return "£"+(price*.86).toFixed(0);
+ }
+
+ return "€"+price.toFixed(0);
+}
+
+function renderProducts(list=products){
+
+ const container=document.getElementById("products");
+
+ container.innerHTML="";
+
+ list.forEach(p=>{
+
+   container.innerHTML+=`
+
+   <article class="product">
+
+   <button class="favorite"
+   onclick="event.stopPropagation();favorite(${p.id})">
+   ♡
+   </button>
+
+   <img
+   class="product-image"
+   src="${p.image}"
+   alt="${p.name}"
+   onclick="addToCart(${p.id})">
+
+   <div class="product-info">
+
+   <div class="product-name">${p.name}</div>
+
+   <div class="product-meta">
+
+   <span>${categoryName(p.category)}</span>
+
+   <span>${formatPrice(p.price)}</span>
+
+   </div>
+
+   </div>
+
+   </article>
+
+   `;
+
+ });
+
+}
+
+function categoryName(c){
+
+ const names={
+  mujer:"Mujer",
+  hombre:"Hombre",
+  accesorios:"Accesorios",
+  perfumes:"Perfume"
+ };
+
+ return names[c]||c;
+
+}
+
+function filterProducts(category,button){
+
+ document.querySelectorAll(".category")
+ .forEach(b=>b.classList.remove("active"));
+
+ button.classList.add("active");
+
+ if(category==="all"){
+  renderProducts(products);
+ }else{
+  renderProducts(products.filter(p=>p.category===category));
+ }
+
+}
+
+function searchProducts(){
+
+ const term=document
+ .getElementById("search")
+ .value
+ .toLowerCase();
+
+ renderProducts(
+  products.filter(p=>
+   p.name.toLowerCase().includes(term)
+  )
+ );
+
+}
+
+function sortProducts(){
+
+ const value=document.getElementById("sort").value;
+
+ let list=[...products];
+
+ if(value==="low"){
+  list.sort((a,b)=>a.price-b.price);
+ }
+
+ if(value==="high"){
+  list.sort((a,b)=>b.price-a.price);
+ }
+
+ renderProducts(list);
+
+}
+
+function addToCart(id){
+
+ const product=products.find(p=>p.id===id);
+
+ cart.push(product);
+
+ updateCart();
+
+ toggleCart();
+
+}
+
+function removeFromCart(index){
+
+ cart.splice(index,1);
+
+ updateCart();
+
+}
+
+function clearCart(){
+
+ cart=[];
+
+ updateCart();
+
+}
+
+function updateCart(){
+
+ document.getElementById("cartCount")
+ .textContent=cart.length;
+
+ const container=document.getElementById("cartItems");
+
+ container.innerHTML="";
+
+ let total=0;
+
+ cart.forEach((p,index)=>{
+
+  total+=p.price;
+
+  container.innerHTML+=`
+
+  <div class="cart-item">
+
+  <img src="${p.image}">
+
+  <div class="cart-item-info">
+
+  <strong>${p.name}</strong>
+
+  <small>${formatPrice(p.price)}</small>
+
+  </div>
+
+  <button class="remove"
+  onclick="removeFromCart(${index})">
+  ×
+  </button>
+
+  </div>
+
+  `;
+
+ });
+
+ document.getElementById("cartTotal")
+ .textContent=formatPrice(total);
+
+ let message="Hola J.BICIN, quiero realizar este pedido:%0A%0A";
+
+ cart.forEach(p=>{
+  message+=
+  "• "+p.name+" — "+formatPrice(p.price)+"%0A";
+ });
+
+ message+="%0ATotal: "+formatPrice(total);
+
+ document.getElementById("orderWhatsApp")
+ .href="https://wa.me/"+WHATSAPP+"?text="+message;
+
+}
+
+function toggleCart(){
+
+ document
+ .getElementById("cartPanel")
+ .classList.toggle("open");
+
+}
+
+function favorite(id){
+
+ alert("Producto añadido a favoritos.");
+
+}
+
+function subscribe(event){
+
+ event.preventDefault();
+
+ const email=document.getElementById("email").value;
+
+ alert("Gracias. "+email+" ha sido añadido a la lista de J.BICIN.");
+
+ document.getElementById("email").value="";
+
+}
+
+renderProducts();
+
+updateCart();
+
+</script>
 
 </body>
 </html>
