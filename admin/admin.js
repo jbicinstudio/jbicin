@@ -1,12 +1,14 @@
 document.addEventListener("DOMContentLoaded", initAdmin);
 
 async function initAdmin() {
-
   const loadingScreen = document.getElementById("loadingScreen");
+  const loginScreen = document.getElementById("loginScreen");
   const adminApp = document.getElementById("adminApp");
+  const loginForm = document.getElementById("loginForm");
+  const loginError = document.getElementById("loginError");
+  const loginBtn = document.getElementById("loginBtn");
 
   try {
-
     const {
       data: { session },
       error
@@ -14,31 +16,97 @@ async function initAdmin() {
 
     if (error) throw error;
 
+    loadingScreen.classList.add("hidden");
+
     if (!session) {
-      window.location.href = "../index.html";
+      loginScreen.classList.remove("hidden");
+
+      loginForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        loginError.style.display = "none";
+        loginError.textContent = "";
+        loginBtn.disabled = true;
+        loginBtn.textContent = "ENTRANDO...";
+
+        const email =
+          document.getElementById("loginEmail").value.trim();
+
+        const password =
+          document.getElementById("loginPassword").value;
+
+        try {
+          const { data, error } =
+            await jbicinSupabase.auth.signInWithPassword({
+              email,
+              password
+            });
+
+          if (error) throw error;
+
+          const user = data.user;
+
+          const {
+            data: adminUser,
+            error: adminError
+          } = await jbicinSupabase
+            .from("admin_users")
+            .select("user_id, role")
+            .eq("user_id", user.id)
+            .eq("role", "admin")
+            .maybeSingle();
+
+          if (adminError) throw adminError;
+
+          if (!adminUser) {
+            await jbicinSupabase.auth.signOut();
+            throw new Error(
+              "Este usuario no tiene permisos de administrador."
+            );
+          }
+
+          window.location.reload();
+
+        } catch (error) {
+          console.error(error);
+
+          loginError.textContent =
+            error.message ||
+            "No se pudo iniciar sesión.";
+
+          loginError.style.display = "block";
+
+          loginBtn.disabled = false;
+          loginBtn.textContent = "ENTRAR";
+        }
+      });
+
       return;
     }
 
-    const { data: adminUser, error: adminError } =
-      await jbicinSupabase
-        .from("admin_users")
-        .select("user_id, role")
-        .eq("user_id", session.user.id)
-        .eq("role", "admin")
-        .maybeSingle();
+    const {
+      data: adminUser,
+      error: adminError
+    } = await jbicinSupabase
+      .from("admin_users")
+      .select("user_id, role")
+      .eq("user_id", session.user.id)
+      .eq("role", "admin")
+      .maybeSingle();
 
     if (adminError) throw adminError;
 
     if (!adminUser) {
       await jbicinSupabase.auth.signOut();
-      window.location.href = "../index.html";
+
+      loginScreen.classList.remove("hidden");
+
       return;
     }
 
     document.getElementById("adminEmail").textContent =
       session.user.email || "";
 
-    loadingScreen.classList.add("hidden");
     adminApp.classList.remove("hidden");
 
     setupNavigation();
@@ -56,13 +124,19 @@ async function initAdmin() {
     await loadCategories();
 
   } catch (error) {
-
     console.error(error);
 
-    alert(
-      "No se pudo verificar el acceso al panel. Revisa la conexión con Supabase."
-    );
+    loadingScreen.classList.add("hidden");
 
+    loginScreen.classList.remove("hidden");
+
+    const loginError =
+      document.getElementById("loginError");
+
+    loginError.textContent =
+      "No se pudo conectar con el sistema de acceso.";
+
+    loginError.style.display = "block";
   }
 }
 
@@ -72,14 +146,14 @@ async function initAdmin() {
 ========================================== */
 
 function setupNavigation() {
+  const buttons =
+    document.querySelectorAll(".nav-btn");
 
-  const buttons = document.querySelectorAll(".nav-btn");
-  const sections = document.querySelectorAll(".admin-section");
+  const sections =
+    document.querySelectorAll(".admin-section");
 
   buttons.forEach(button => {
-
     button.addEventListener("click", () => {
-
       const target = button.dataset.section;
 
       buttons.forEach(btn =>
@@ -98,9 +172,7 @@ function setupNavigation() {
       if (targetSection) {
         targetSection.classList.add("active");
       }
-
     });
-
   });
 
 
@@ -110,10 +182,9 @@ function setupNavigation() {
 
       await jbicinSupabase.auth.signOut();
 
-      window.location.href = "../index.html";
+      window.location.reload();
 
     });
-
 }
 
 
@@ -122,7 +193,6 @@ function setupNavigation() {
 ========================================== */
 
 async function loadDashboard() {
-
   const { data: products, error: productsError } =
     await jbicinSupabase
       .from("products")
@@ -145,16 +215,18 @@ async function loadDashboard() {
   }
 
 
-  const totalStock = variants.reduce(
-    (sum, variant) =>
-      sum + Number(variant.stock || 0),
-    0
-  );
+  const totalStock =
+    variants.reduce(
+      (sum, variant) =>
+        sum + Number(variant.stock || 0),
+      0
+    );
 
 
-  const published = products.filter(
-    product => product.is_published
-  ).length;
+  const published =
+    products.filter(
+      product => product.is_published
+    ).length;
 
 
   document.getElementById("statProducts").textContent =
@@ -180,7 +252,6 @@ async function loadDashboard() {
       unidades actualmente.
     </div>
   `;
-
 }
 
 
@@ -189,7 +260,6 @@ async function loadDashboard() {
 ========================================== */
 
 async function loadProducts() {
-
   const container =
     document.getElementById("productsTable");
 
@@ -213,7 +283,6 @@ async function loadProducts() {
 
 
   if (error) {
-
     console.error(error);
 
     container.innerHTML =
@@ -224,7 +293,6 @@ async function loadProducts() {
 
 
   if (!data.length) {
-
     container.innerHTML =
       "<p>No hay productos todavía.</p>";
 
@@ -233,9 +301,7 @@ async function loadProducts() {
 
 
   container.innerHTML = `
-
     <div class="table-wrapper">
-
       <table>
 
         <thead>
@@ -256,7 +322,9 @@ async function loadProducts() {
             <tr>
 
               <td>
-                <strong>${escapeHtml(product.name)}</strong>
+                <strong>
+                  ${escapeHtml(product.name)}
+                </strong>
               </td>
 
               <td>
@@ -287,11 +355,16 @@ async function loadProducts() {
 
                 <button
                   class="small-btn"
-                  onclick="togglePublished('${product.id}', ${product.is_published})"
+                  onclick="togglePublished(
+                    '${product.id}',
+                    ${product.is_published}
+                  )"
                 >
-                  ${product.is_published
-                    ? "Ocultar"
-                    : "Publicar"}
+                  ${
+                    product.is_published
+                      ? "Ocultar"
+                      : "Publicar"
+                  }
                 </button>
 
               </td>
@@ -303,11 +376,8 @@ async function loadProducts() {
         </tbody>
 
       </table>
-
     </div>
-
   `;
-
 }
 
 
@@ -315,8 +385,10 @@ async function loadProducts() {
    PUBLICAR / OCULTAR
 ========================================== */
 
-async function togglePublished(productId, currentState) {
-
+async function togglePublished(
+  productId,
+  currentState
+) {
   const { error } =
     await jbicinSupabase
       .from("products")
@@ -327,17 +399,18 @@ async function togglePublished(productId, currentState) {
 
 
   if (error) {
+    alert(
+      "No se pudo actualizar el producto."
+    );
 
-    alert("No se pudo actualizar el producto.");
     console.error(error);
-    return;
 
+    return;
   }
 
 
   await loadProducts();
   await loadDashboard();
-
 }
 
 
@@ -346,10 +419,8 @@ async function togglePublished(productId, currentState) {
 ========================================== */
 
 async function loadStock() {
-
   const container =
     document.getElementById("stockTable");
-
 
   const { data, error } =
     await jbicinSupabase
@@ -370,29 +441,24 @@ async function loadStock() {
 
 
   if (error) {
-
     console.error(error);
 
     container.innerHTML =
       "<p>No se pudo cargar el stock.</p>";
 
     return;
-
   }
 
 
   if (!data.length) {
-
     container.innerHTML =
       "<p>No hay variantes de producto.</p>";
 
     return;
-
   }
 
 
   container.innerHTML = `
-
     <div class="table-wrapper">
 
       <table>
@@ -425,15 +491,21 @@ async function loadStock() {
               </td>
 
               <td>
-                ${escapeHtml(variant.size || "—")}
+                ${escapeHtml(
+                  variant.size || "—"
+                )}
               </td>
 
               <td>
-                ${escapeHtml(variant.color || "—")}
+                ${escapeHtml(
+                  variant.color || "—"
+                )}
               </td>
 
               <td>
-                ${escapeHtml(variant.sku || "—")}
+                ${escapeHtml(
+                  variant.sku || "—"
+                )}
               </td>
 
               <td>
@@ -446,9 +518,7 @@ async function loadStock() {
                       : ""
                   }
                 ">
-
                   ${variant.stock}
-
                 </span>
 
               </td>
@@ -464,7 +534,10 @@ async function loadStock() {
 
                 <button
                   class="small-btn danger"
-                  onclick="removeStock('${variant.id}', ${variant.stock})"
+                  onclick="removeStock(
+                    '${variant.id}',
+                    ${variant.stock}
+                  )"
                 >
                   − Stock
                 </button>
@@ -480,9 +553,7 @@ async function loadStock() {
       </table>
 
     </div>
-
   `;
-
 }
 
 
@@ -491,46 +562,38 @@ async function loadStock() {
 ========================================== */
 
 async function addStock(variantId) {
-
-  const quantity =
+  const amount =
     Number(
       prompt("¿Cuántas unidades quieres añadir?")
     );
 
-
-  if (!Number.isInteger(quantity) || quantity <= 0) {
+  if (!Number.isInteger(amount) || amount <= 0) {
     return;
   }
-
-
-  const note =
-    prompt("Nota del movimiento (opcional):") || null;
-
 
   const { error } =
     await jbicinSupabase.rpc(
       "adjust_stock",
       {
         p_variant_id: variantId,
-        p_quantity_change: quantity,
+        p_quantity_change: amount,
         p_reason: "entrada",
-        p_note: note
+        p_note: "Entrada manual desde panel"
       }
     );
 
-
   if (error) {
+    alert(
+      "No se pudo actualizar el stock."
+    );
 
-    alert(error.message);
     console.error(error);
+
     return;
-
   }
-
 
   await loadStock();
   await loadDashboard();
-
 }
 
 
@@ -538,54 +601,55 @@ async function addStock(variantId) {
    QUITAR STOCK
 ========================================== */
 
-async function removeStock(variantId, currentStock) {
-
-  const quantity =
+async function removeStock(
+  variantId,
+  currentStock
+) {
+  const amount =
     Number(
       prompt(
-        `¿Cuántas unidades quieres retirar?\nStock actual: ${currentStock}`
+        `Stock actual: ${currentStock}\n\n¿Cuántas unidades quieres retirar?`
       )
     );
 
-
   if (
-    !Number.isInteger(quantity) ||
-    quantity <= 0 ||
-    quantity > currentStock
+    !Number.isInteger(amount) ||
+    amount <= 0
   ) {
-    alert("Cantidad no válida.");
     return;
   }
 
+  if (amount > currentStock) {
+    alert(
+      "No puedes retirar más unidades de las disponibles."
+    );
 
-  const note =
-    prompt("Motivo / nota del movimiento:") || null;
-
+    return;
+  }
 
   const { error } =
     await jbicinSupabase.rpc(
       "adjust_stock",
       {
         p_variant_id: variantId,
-        p_quantity_change: -quantity,
+        p_quantity_change: -amount,
         p_reason: "salida",
-        p_note: note
+        p_note: "Salida manual desde panel"
       }
     );
 
-
   if (error) {
+    alert(
+      "No se pudo actualizar el stock."
+    );
 
-    alert(error.message);
     console.error(error);
+
     return;
-
   }
-
 
   await loadStock();
   await loadDashboard();
-
 }
 
 
@@ -594,10 +658,8 @@ async function removeStock(variantId, currentStock) {
 ========================================== */
 
 async function loadCategories() {
-
   const container =
     document.getElementById("categoriesTable");
-
 
   const { data, error } =
     await jbicinSupabase
@@ -607,72 +669,73 @@ async function loadCategories() {
 
 
   if (error) {
-
     console.error(error);
 
     container.innerHTML =
       "<p>No se pudieron cargar las categorías.</p>";
 
     return;
+  }
 
+
+  if (!data.length) {
+    container.innerHTML =
+      "<p>No hay categorías.</p>";
+
+    return;
   }
 
 
   container.innerHTML = `
+    <div class="table-wrapper">
 
-    <div class="category-list">
+      <table>
 
-      ${data.map(category => `
+        <thead>
+          <tr>
+            <th>Nombre</th>
+            <th>Slug</th>
+          </tr>
+        </thead>
 
-        <div class="category-item">
+        <tbody>
 
-          <span>
-            ${escapeHtml(category.name)}
-          </span>
+          ${data.map(category => `
 
-          <small>
-            /${escapeHtml(category.slug)}
-          </small>
+            <tr>
 
-        </div>
+              <td>
+                <strong>
+                  ${escapeHtml(category.name)}
+                </strong>
+              </td>
 
-      `).join("")}
+              <td>
+                ${escapeHtml(category.slug)}
+              </td>
+
+            </tr>
+
+          `).join("")}
+
+        </tbody>
+
+      </table>
 
     </div>
-
   `;
-
 }
 
 
 /* ==========================================
-   SEGURIDAD
+   SEGURIDAD HTML
 ========================================== */
 
 function escapeHtml(value) {
-
   return String(value ?? "")
     .replaceAll("&", "&amp;")
     .replaceAll("<", "&lt;")
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#039;");
-
 }
-
-
-/* ==========================================
-   NUEVO PRODUCTO
-========================================== */
-
-document.addEventListener("click", event => {
-
-  if (event.target.id === "newProductBtn") {
-
-    alert(
-      "El creador de productos lo activaremos ahora en la siguiente fase."
-    );
-
-  }
-
-});
