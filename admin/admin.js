@@ -122,7 +122,8 @@ async function initAdmin() {
     await loadProducts();
     await loadStock();
     await loadCategories();
-
+    await loadProductCategories();
+    
   } catch (error) {
     console.error(error);
 
@@ -726,7 +727,44 @@ async function loadCategories() {
   `;
 }
 
+/* ==========================================
+   CATEGORÍAS DEL FORMULARIO
+========================================== */
 
+async function loadProductCategories() {
+
+  const select =
+    document.getElementById("productCategory");
+
+  if (!select) return;
+
+  const { data, error } =
+    await jbicinSupabase
+      .from("categories")
+      .select("id, name")
+      .order("name");
+
+  if (error) {
+    console.error("Error cargando categorías:", error);
+    return;
+  }
+
+  select.innerHTML =
+    `<option value="">Seleccionar categoría</option>`;
+
+  data.forEach(category => {
+
+    const option =
+      document.createElement("option");
+
+    option.value = category.id;
+    option.textContent = category.name;
+
+    select.appendChild(option);
+
+  });
+
+}
 /* ==========================================
    SEGURIDAD HTML
 ========================================== */
