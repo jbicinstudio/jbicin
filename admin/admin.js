@@ -771,34 +771,4 @@ document.addEventListener("click", (event) => {
 
 });
 
-  document.addEventListener("click", (event) => {
-
-  if (event.target.id === "newProductBtn") {
-
-    const panel = document.getElementById("productFormPanel");
-
-    if (panel) {
-      panel.classList.remove("hidden");
-
-      panel.scrollIntoView({
-        behavior: "smooth",
-        block: "start"
-      });
-    }
-
-  }
-
-  if (
-    event.target.id === "cancelProductBtn" ||
-    event.target.id === "cancelProductBtnBottom"
-  ) {
-
-    const panel = document.getElementById("productFormPanel");
-
-    if (panel) {
-      panel.classList.add("hidden");
-    }
-
-  }
-
-});
+  
