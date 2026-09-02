@@ -607,56 +607,75 @@ document.addEventListener("DOMContentLoaded", () => {
           <div class="form-divider"></div>
 
 
-          <div class="form-section-title">
-            <p class="eyebrow">INVENTARIO</p>
-            <h3>Primera variante</h3>
-          </div>
+         <div class="form-section-title">
+  <p class="eyebrow">INVENTARIO</p>
+  <h3>Variantes del producto</h3>
+  <p class="muted">
+    Añade cada combinación de talla, color, SKU y stock.
+  </p>
+</div>
 
+<div id="variantsContainer">
 
-          <div class="form-grid">
+  <div class="variant-row">
 
-            <div class="form-field">
-              <label for="variantSize">Talla</label>
-              <input
-                id="variantSize"
-                type="text"
-                placeholder="S, M, L, XL"
-              >
-            </div>
+    <div class="form-field">
+      <label>Talla</label>
+      <input
+        type="text"
+        class="variant-size"
+        placeholder="S"
+      >
+    </div>
 
+    <div class="form-field">
+      <label>Color</label>
+      <input
+        type="text"
+        class="variant-color"
+        placeholder="Beige"
+      >
+    </div>
 
-            <div class="form-field">
-              <label for="variantColor">Color</label>
-              <input
-                id="variantColor"
-                type="text"
-                placeholder="Beige"
-              >
-            </div>
+    <div class="form-field">
+      <label>SKU</label>
+      <input
+        type="text"
+        class="variant-sku"
+        placeholder="JB-HWC-BEI-S"
+      >
+    </div>
 
+    <div class="form-field">
+      <label>Stock</label>
+      <input
+        type="number"
+        class="variant-stock"
+        min="0"
+        step="1"
+        value="0"
+      >
+    </div>
 
-            <div class="form-field">
-              <label for="variantSku">SKU</label>
-              <input
-                id="variantSku"
-                type="text"
-                placeholder="JB-HWC-BEI-M"
-              >
-            </div>
+    <button
+      type="button"
+      class="small-btn danger remove-variant-btn"
+      style="align-self:end;"
+    >
+      Eliminar
+    </button>
 
+  </div>
 
-            <div class="form-field">
-              <label for="variantStock">Stock inicial</label>
-              <input
-                id="variantStock"
-                type="number"
-                min="0"
-                step="1"
-                value="0"
-              >
-            </div>
+</div>
 
-          </div>
+<button
+  type="button"
+  class="small-btn"
+  id="addVariantBtn"
+>
+  + Añadir variante
+</button>
 
 
           <div id="productFormMessage" class="form-message"></div>
