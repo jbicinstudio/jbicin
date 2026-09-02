@@ -740,27 +740,36 @@ function escapeHtml(value) {
     .replaceAll("'", "&#039;");
 }
 document.addEventListener("click", (event) => {
+
   if (event.target.id === "newProductBtn") {
-    createProduct();
+
+    const panel = document.getElementById("productFormPanel");
+
+    if (panel) {
+      panel.classList.remove("hidden");
+
+      panel.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+    }
+
   }
+
+  if (
+    event.target.id === "cancelProductBtn" ||
+    event.target.id === "cancelProductBtnBottom"
+  ) {
+
+    const panel = document.getElementById("productFormPanel");
+
+    if (panel) {
+      panel.classList.add("hidden");
+    }
+
+  }
+
 });
-
-async function createProduct() {
-  const name = prompt("Nombre del producto:");
-  if (!name) return;
-
-  const price = Number(prompt("Precio (€):"));
-  if (isNaN(price)) return;
-
-  const { error } = await jbicinSupabase
-    .from("products")
-    .insert({
-      name: name,
-      slug: name.toLowerCase().replace(/\s+/g, "-"),
-      gender: "unisex",
-      price_eur: price,
-      is_published: false
-    });
 
   if (error) {
     alert("Error al crear el producto");
