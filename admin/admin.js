@@ -771,14 +771,34 @@ document.addEventListener("click", (event) => {
 
 });
 
-  if (error) {
-    alert("Error al crear el producto");
-    console.error(error);
-    return;
+  document.addEventListener("click", (event) => {
+
+  if (event.target.id === "newProductBtn") {
+
+    const panel = document.getElementById("productFormPanel");
+
+    if (panel) {
+      panel.classList.remove("hidden");
+
+      panel.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+    }
+
   }
 
-  alert("Producto creado correctamente ✨");
+  if (
+    event.target.id === "cancelProductBtn" ||
+    event.target.id === "cancelProductBtnBottom"
+  ) {
 
-  if (typeof loadProducts === "function") await loadProducts();
-  if (typeof loadDashboard === "function") await loadDashboard();
-}
+    const panel = document.getElementById("productFormPanel");
+
+    if (panel) {
+      panel.classList.add("hidden");
+    }
+
+  }
+
+});
