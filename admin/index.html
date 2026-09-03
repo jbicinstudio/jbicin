@@ -669,15 +669,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const form = document.getElementById("productForm");
   const message = document.getElementById("productFormMessage");
-  const variantsContainer = document.getElementById("variantsContainer");
-  const addVariantBtn = document.getElementById("addVariantBtn");
+  const variantsContainer =
+    document.getElementById("variantsContainer");
+  const addVariantBtn =
+    document.getElementById("addVariantBtn");
 
-  if (!form || !variantsContainer || !addVariantBtn) {
-    console.error("No se encontró el formulario de producto o las variantes.");
+  if (!form || !message || !variantsContainer || !addVariantBtn) {
+    console.error("J.BICIN: elementos del formulario de producto no encontrados.");
     return;
   }
 
-  // AÑADIR VARIANTE
+
+  /* ==========================================
+     AÑADIR VARIANTE
+  ========================================== */
+
   addVariantBtn.addEventListener("click", () => {
 
     const row = document.createElement("div");
@@ -737,10 +743,17 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
 
-  // ELIMINAR VARIANTE
+  /* ==========================================
+     ELIMINAR VARIANTE
+  ========================================== */
+
   variantsContainer.addEventListener("click", (event) => {
 
-    if (!event.target.classList.contains("remove-variant-btn")) {
+    if (
+      !event.target.classList.contains(
+        "remove-variant-btn"
+      )
+    ) {
       return;
     }
 
@@ -748,13 +761,20 @@ document.addEventListener("DOMContentLoaded", () => {
       variantsContainer.querySelectorAll(".variant-row");
 
     if (rows.length > 1) {
-      event.target.closest(".variant-row").remove();
+
+      event.target
+        .closest(".variant-row")
+        .remove();
+
     }
 
   });
 
 
-  // GUARDAR PRODUCTO + TODAS SUS VARIANTES
+  /* ==========================================
+     GUARDAR PRODUCTO
+  ========================================== */
+
   form.addEventListener("submit", async (event) => {
 
     event.preventDefault();
@@ -762,31 +782,45 @@ document.addEventListener("DOMContentLoaded", () => {
     message.textContent = "Guardando producto...";
     message.style.display = "block";
 
+
     const name =
-      document.getElementById("productName").value.trim();
+      document.getElementById("productName")
+        .value
+        .trim();
 
     const description =
-      document.getElementById("productDescription").value.trim();
+      document.getElementById("productDescription")
+        .value
+        .trim();
 
     const categoryId =
-      document.getElementById("productCategory").value || null;
+      document.getElementById("productCategory")
+        .value || null;
 
     const gender =
-      document.getElementById("productGender").value;
+      document.getElementById("productGender")
+        .value;
 
     const price =
-      Number(document.getElementById("productPrice").value);
+      Number(
+        document.getElementById("productPrice")
+          .value
+      );
 
     const comparePriceValue =
-      document.getElementById("productComparePrice").value;
+      document.getElementById("productComparePrice")
+        .value;
 
     const comparePrice =
       comparePriceValue
         ? Number(comparePriceValue)
         : null;
 
+
     const slugInput =
-      document.getElementById("productSlug").value.trim();
+      document.getElementById("productSlug")
+        .value
+        .trim();
 
     const slug =
       slugInput ||
@@ -797,14 +831,21 @@ document.addEventListener("DOMContentLoaded", () => {
         .replace(/[^a-z0-9]+/g, "-")
         .replace(/^-|-$/g, "");
 
+
     if (!name || !price) {
+
       message.textContent =
         "Completa el nombre y el precio.";
+
       return;
+
     }
 
 
-    // CREAR PRODUCTO
+    /* ==========================================
+       CREAR PRODUCTO
+    ========================================== */
+
     const { data: product, error } =
       await jbicinSupabase
         .from("products")
@@ -818,13 +859,17 @@ document.addEventListener("DOMContentLoaded", () => {
           compare_price_eur: comparePrice,
           is_published: false,
           is_new:
-            document.getElementById("productNew").checked,
+            document.getElementById("productNew")
+              .checked,
           is_bestseller:
-            document.getElementById("productBestseller").checked,
+            document.getElementById("productBestseller")
+              .checked,
           is_limited:
-            document.getElementById("productLimited").checked,
+            document.getElementById("productLimited")
+              .checked,
           is_featured:
-            document.getElementById("productFeatured").checked
+            document.getElementById("productFeatured")
+              .checked
         })
         .select()
         .single();
@@ -839,32 +884,51 @@ document.addEventListener("DOMContentLoaded", () => {
         error.message;
 
       return;
+
     }
 
 
-    // LEER TODAS LAS VARIANTES
+    /* ==========================================
+       LEER TODAS LAS VARIANTES
+    ========================================== */
+
     const rows =
-      variantsContainer.querySelectorAll(".variant-row");
+      variantsContainer
+        .querySelectorAll(".variant-row");
 
     const variants = [];
+
 
     rows.forEach((row) => {
 
       const size =
-        row.querySelector(".variant-size").value.trim();
+        row.querySelector(".variant-size")
+          .value
+          .trim();
 
       const color =
-        row.querySelector(".variant-color").value.trim();
+        row.querySelector(".variant-color")
+          .value
+          .trim();
 
       const sku =
-        row.querySelector(".variant-sku").value.trim();
+        row.querySelector(".variant-sku")
+          .value
+          .trim();
 
       const stock =
         Number(
-          row.querySelector(".variant-stock").value || 0
+          row.querySelector(".variant-stock")
+            .value || 0
         );
 
-      if (size || color || sku || stock > 0) {
+
+      if (
+        size ||
+        color ||
+        sku ||
+        stock > 0
+      ) {
 
         variants.push({
           product_id: product.id,
@@ -879,13 +943,17 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
 
-    // GUARDAR TODAS LAS VARIANTES
+    /* ==========================================
+       GUARDAR TODAS LAS VARIANTES
+    ========================================== */
+
     if (variants.length > 0) {
 
       const { error: variantError } =
         await jbicinSupabase
           .from("product_variants")
           .insert(variants);
+
 
       if (variantError) {
 
@@ -896,17 +964,24 @@ document.addEventListener("DOMContentLoaded", () => {
           variantError.message;
 
         return;
+
       }
 
     }
 
 
+    /* ==========================================
+       ÉXITO
+    ========================================== */
+
     message.textContent =
       "✓ Producto guardado como borrador con sus variantes.";
 
 
-    // LIMPIAR FORMULARIO
     form.reset();
+
+
+    /* Volver a dejar una variante vacía */
 
     variantsContainer.innerHTML = `
       <div class="variant-row">
