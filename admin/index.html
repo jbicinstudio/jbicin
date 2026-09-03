@@ -664,7 +664,315 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
         <form id="productForm">
+<script>
+document.addEventListener("DOMContentLoaded", () => {
 
+  const form = document.getElementById("productForm");
+  const message = document.getElementById("productFormMessage");
+  const variantsContainer = document.getElementById("variantsContainer");
+  const addVariantBtn = document.getElementById("addVariantBtn");
+
+  if (!form || !variantsContainer || !addVariantBtn) {
+    console.error("No se encontró el formulario de producto o las variantes.");
+    return;
+  }
+
+  // AÑADIR VARIANTE
+  addVariantBtn.addEventListener("click", () => {
+
+    const row = document.createElement("div");
+
+    row.className = "variant-row";
+
+    row.innerHTML = `
+      <div class="form-field">
+        <label>Talla</label>
+        <input
+          type="text"
+          class="variant-size"
+          placeholder="M"
+        >
+      </div>
+
+      <div class="form-field">
+        <label>Color</label>
+        <input
+          type="text"
+          class="variant-color"
+          placeholder="Beige"
+        >
+      </div>
+
+      <div class="form-field">
+        <label>SKU</label>
+        <input
+          type="text"
+          class="variant-sku"
+          placeholder="JB-HWC-BEI-M"
+        >
+      </div>
+
+      <div class="form-field">
+        <label>Stock</label>
+        <input
+          type="number"
+          class="variant-stock"
+          min="0"
+          step="1"
+          value="0"
+        >
+      </div>
+
+      <button
+        type="button"
+        class="small-btn danger remove-variant-btn"
+        style="align-self:end;"
+      >
+        Eliminar
+      </button>
+    `;
+
+    variantsContainer.appendChild(row);
+
+  });
+
+
+  // ELIMINAR VARIANTE
+  variantsContainer.addEventListener("click", (event) => {
+
+    if (!event.target.classList.contains("remove-variant-btn")) {
+      return;
+    }
+
+    const rows =
+      variantsContainer.querySelectorAll(".variant-row");
+
+    if (rows.length > 1) {
+      event.target.closest(".variant-row").remove();
+    }
+
+  });
+
+
+  // GUARDAR PRODUCTO + TODAS SUS VARIANTES
+  form.addEventListener("submit", async (event) => {
+
+    event.preventDefault();
+
+    message.textContent = "Guardando producto...";
+    message.style.display = "block";
+
+    const name =
+      document.getElementById("productName").value.trim();
+
+    const description =
+      document.getElementById("productDescription").value.trim();
+
+    const categoryId =
+      document.getElementById("productCategory").value || null;
+
+    const gender =
+      document.getElementById("productGender").value;
+
+    const price =
+      Number(document.getElementById("productPrice").value);
+
+    const comparePriceValue =
+      document.getElementById("productComparePrice").value;
+
+    const comparePrice =
+      comparePriceValue
+        ? Number(comparePriceValue)
+        : null;
+
+    const slugInput =
+      document.getElementById("productSlug").value.trim();
+
+    const slug =
+      slugInput ||
+      name
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-|-$/g, "");
+
+    if (!name || !price) {
+      message.textContent =
+        "Completa el nombre y el precio.";
+      return;
+    }
+
+
+    // CREAR PRODUCTO
+    const { data: product, error } =
+      await jbicinSupabase
+        .from("products")
+        .insert({
+          name,
+          slug,
+          description,
+          category_id: categoryId,
+          gender,
+          price_eur: price,
+          compare_price_eur: comparePrice,
+          is_published: false,
+          is_new:
+            document.getElementById("productNew").checked,
+          is_bestseller:
+            document.getElementById("productBestseller").checked,
+          is_limited:
+            document.getElementById("productLimited").checked,
+          is_featured:
+            document.getElementById("productFeatured").checked
+        })
+        .select()
+        .single();
+
+
+    if (error) {
+
+      console.error(error);
+
+      message.textContent =
+        "No se pudo guardar el producto: " +
+        error.message;
+
+      return;
+    }
+
+
+    // LEER TODAS LAS VARIANTES
+    const rows =
+      variantsContainer.querySelectorAll(".variant-row");
+
+    const variants = [];
+
+    rows.forEach((row) => {
+
+      const size =
+        row.querySelector(".variant-size").value.trim();
+
+      const color =
+        row.querySelector(".variant-color").value.trim();
+
+      const sku =
+        row.querySelector(".variant-sku").value.trim();
+
+      const stock =
+        Number(
+          row.querySelector(".variant-stock").value || 0
+        );
+
+      if (size || color || sku || stock > 0) {
+
+        variants.push({
+          product_id: product.id,
+          size,
+          color,
+          sku: sku || null,
+          stock
+        });
+
+      }
+
+    });
+
+
+    // GUARDAR TODAS LAS VARIANTES
+    if (variants.length > 0) {
+
+      const { error: variantError } =
+        await jbicinSupabase
+          .from("product_variants")
+          .insert(variants);
+
+      if (variantError) {
+
+        console.error(variantError);
+
+        message.textContent =
+          "El producto se creó, pero hubo un problema con las variantes: " +
+          variantError.message;
+
+        return;
+      }
+
+    }
+
+
+    message.textContent =
+      "✓ Producto guardado como borrador con sus variantes.";
+
+
+    // LIMPIAR FORMULARIO
+    form.reset();
+
+    variantsContainer.innerHTML = `
+      <div class="variant-row">
+
+        <div class="form-field">
+          <label>Talla</label>
+          <input
+            type="text"
+            class="variant-size"
+            placeholder="S"
+          >
+        </div>
+
+        <div class="form-field">
+          <label>Color</label>
+          <input
+            type="text"
+            class="variant-color"
+            placeholder="Beige"
+          >
+        </div>
+
+        <div class="form-field">
+          <label>SKU</label>
+          <input
+            type="text"
+            class="variant-sku"
+            placeholder="JB-HWC-BEI-S"
+          >
+        </div>
+
+        <div class="form-field">
+          <label>Stock</label>
+          <input
+            type="number"
+            class="variant-stock"
+            min="0"
+            step="1"
+            value="0"
+          >
+        </div>
+
+        <button
+          type="button"
+          class="small-btn danger remove-variant-btn"
+          style="align-self:end;"
+        >
+          Eliminar
+        </button>
+
+      </div>
+    `;
+
+
+    if (typeof loadProducts === "function") {
+      await loadProducts();
+    }
+
+    if (typeof loadDashboard === "function") {
+      await loadDashboard();
+    }
+
+  });
+
+});
+</script>
           <div class="form-grid">
 
             <div class="form-field">
