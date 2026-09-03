@@ -172,7 +172,195 @@ document.addEventListener("DOMContentLoaded", () => {
   const message = document.getElementById("productFormMessage");
 
   if (!form) return;
+  const variantsContainer =
+    document.getElementById("variantsContainer");
 
+  const addVariantBtn =
+    document.getElementById("addVariantBtn");
+
+  if (addVariantBtn && variantsContainer) {
+
+    addVariantBtn.addEventListener("click", () => {
+
+      const row =
+        document.createElement("div");
+
+      row.className = "variant-row";
+
+      row.innerHTML = `
+        <div class="form-field">
+          <label>Talla</label>
+          <input
+            type="text"
+            class="variant-size"
+            placeholder="M"
+          >
+        </div>
+
+        <div class="form-field">
+          <label>Color</label>
+          <input
+            type="text"
+            class="variant-color"
+            placeholder="Beige"
+          >
+        </div>
+
+        <div class="form-field">
+          <label>SKU</label>
+          <input
+            type="text"
+            class="variant-sku"
+            placeholder="JB-HWC-BEI-M"
+          >
+        </div>
+
+        <div class="form-field">
+          <label>Stock</label>
+          <input
+            type="number"
+            class="variant-stock"
+            min="0"
+            step="1"
+            value="0"
+          >
+        </div>
+
+        <button
+          type="button"
+          class="small-btn danger remove-variant-btn"
+          style="align-self:end;"
+        >
+          Eliminar
+        </button>
+      `;
+
+      variantsContainer.appendChild(row);
+
+    });
+
+    variantsContainer.addEventListener(
+      "click",
+      (event) => {
+
+        if (
+          event.target.classList.contains(
+            "remove-variant-btn"
+          )
+        ) {
+
+          const rows =
+            variantsContainer.querySelectorAll(
+              ".variant-row"
+            );
+
+          if (rows.length > 1) {
+            event.target
+              .closest(".variant-row")
+              .remove();
+          }
+
+        }
+
+      }
+    );
+
+  }
+    const variantsContainer =
+    document.getElementById("variantsContainer");
+
+  const addVariantBtn =
+    document.getElementById("addVariantBtn");
+
+  if (addVariantBtn && variantsContainer) {
+
+    addVariantBtn.addEventListener("click", () => {
+
+      const row =
+        document.createElement("div");
+
+      row.className = "variant-row";
+
+      row.innerHTML = `
+        <div class="form-field">
+          <label>Talla</label>
+          <input
+            type="text"
+            class="variant-size"
+            placeholder="M"
+          >
+        </div>
+
+        <div class="form-field">
+          <label>Color</label>
+          <input
+            type="text"
+            class="variant-color"
+            placeholder="Beige"
+          >
+        </div>
+
+        <div class="form-field">
+          <label>SKU</label>
+          <input
+            type="text"
+            class="variant-sku"
+            placeholder="JB-HWC-BEI-M"
+          >
+        </div>
+
+        <div class="form-field">
+          <label>Stock</label>
+          <input
+            type="number"
+            class="variant-stock"
+            min="0"
+            step="1"
+            value="0"
+          >
+        </div>
+
+        <button
+          type="button"
+          class="small-btn danger remove-variant-btn"
+          style="align-self:end;"
+        >
+          Eliminar
+        </button>
+      `;
+
+      variantsContainer.appendChild(row);
+
+    });
+
+    variantsContainer.addEventListener(
+      "click",
+      (event) => {
+
+        if (
+          event.target.classList.contains(
+            "remove-variant-btn"
+          )
+        ) {
+
+          const rows =
+            variantsContainer.querySelectorAll(
+              ".variant-row"
+            );
+
+          if (rows.length > 1) {
+            event.target
+              .closest(".variant-row")
+              .remove();
+          }
+
+        }
+
+      }
+    );
+
+  }
+  
   form.addEventListener("submit", async (event) => {
 
     event.preventDefault();
